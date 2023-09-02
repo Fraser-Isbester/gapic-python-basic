@@ -8,3 +8,4 @@ Support:
 # References
 - [Gapic Generator Python Documentation](https://gapic-generator-python.readthedocs.io/en/stable/index.html)
 - [Google API Improvement Proposals](https://google.aip.dev/)
+- [GAPIC Showcase](https://github.com/googleapis/gapic-showcase)

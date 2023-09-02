@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package google.cloud.vision.v1;
+
+// A 3D position in the image, used primarily for Face detection landmarks.
+// A valid Position must have both x and y coordinates.
+// The position coordinates are in the same scale as the original image.
+message Position {
+  // X coordinate.
+  float x = 1;
+
+  // Y coordinate.
+  float y = 2;
+
+  // Z coordinate (or depth).
+  float z = 3;
+}
