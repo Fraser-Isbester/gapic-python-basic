@@ -1,13 +1,15 @@
 [tool.poetry]
 name = "gapic-python-basic"
 version = "0.1.0"
-description = ""
+description = "Tools for generating Code"
 authors = ["Fraser Isbester <fraserisbester@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
 protobuf = "^4.24.2"
+gapic-generator = "^1.11.4"
+pandoc = "^2.3"
 
 
 [build-system]
