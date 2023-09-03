@@ -10,6 +10,8 @@ python = "^3.11"
 protobuf = "^4.24.2"
 gapic-generator = "^1.11.4"
 pandoc = "^2.3"
+black = "^23.7.0"
+ruff = "^0.0.287"
 
 
 [build-system]
