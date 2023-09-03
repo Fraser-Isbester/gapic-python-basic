@@ -1,0 +1,25 @@
+// A proto file for the Widget service
+syntax = "proto3";
+
+package simple_types.v1.widget;
+
+// The Widget type defines a Widget object
+message Widget {
+    // The name of the widget
+    string name = 1;
+    // The size of the widget
+    Size size = 2;
+    // The date the widget was created
+    int64 created = 3;
+    // The colors available for the widget
+    repeated string colors = 4;
+
+    // The Size enum defines the size of the widget
+    enum Size {
+        // The size is unknown
+        UNKNOWN = 0;
+        SMALL = 1;
+        MEDIUM = 2;
+        LARGE = 3;
+    }
+}
