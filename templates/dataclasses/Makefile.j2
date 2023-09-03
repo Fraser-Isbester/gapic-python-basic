@@ -1,0 +1,39 @@
+{% block generated_notice %}
+{% include "_generated_notice.j2" %}
+{% endblock %}
+# Contains useful entrypoints to this codebase.
+
+.PHONY: test
+test: test-unit test-client-integration
+
+.PHONY: test-unit
+test-unit: .ve/bin/nox
+	.ve/bin/nox -s unit
+
+.PHONY: test-client-integration
+test-client-integration: .ve/bin/nox
+	.ve/bin/nox -s client_integration
+
+.PHONY: lint
+lint: .ve/bin/nox
+	.ve/bin/nox -s lint
+
+.PHONY: blacken
+blacken: .ve/bin/nox
+	.ve/bin/nox -s blacken
+
+.PHONY: docs
+docs: .ve/bin/nox
+	.ve/bin/nox -s docs
+
+.ve/bin/nox: .ve
+	.ve/bin/pip install nox
+
+.ve:
+	python3 -m venv .ve
+	.ve/bin/pip install wheel
+	./.ve/bin/pip install -e .
+
+.PHONY: clean
+clean:
+	rm -rf ./.ve

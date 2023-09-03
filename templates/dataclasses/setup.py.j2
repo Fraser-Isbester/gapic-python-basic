@@ -1,0 +1,57 @@
+{% extends '_base.py.j2' %}
+
+{% block content %}
+
+import io
+import os
+import setuptools  # type: ignore
+
+version = '1.3.6'
+
+package_root = os.path.abspath(os.path.dirname(__file__))
+
+readme_filename = os.path.join(package_root, 'README.rst')
+with io.open(readme_filename, encoding='utf-8') as readme_file:
+    readme = readme_file.read()
+
+setuptools.setup(
+    name='{{ api.naming.warehouse_package_name }}',
+    author="Virta",
+    author_email="engineering@virtahealth.com",
+    url="https://github.com/VirtaHealth/backend",
+    version=version,
+    long_description=readme,
+    {% if api.naming.namespace %}
+    packages=setuptools.PEP420PackageFinder.find(),
+    namespace_packages={{ api.naming.namespace_packages }},
+    {% else %}
+    packages=setuptools.PEP420PackageFinder.find(),
+    {% endif %}
+    platforms='Posix; MacOS X; Windows',
+    include_package_data=True,
+    install_requires=(
+        'google-api-core[grpc]',
+        'googleapis-common-protos >= 1.52.0, <2.0.0dev',
+        'proto-plus >= 1.19.7',
+    {# TODO: Remove after https://github.com/googleapis/gapic-generator-python/pull/1240 is merged. #}
+    {% if api.requires_package(('google', 'iam', 'v1')) or opts.add_iam_methods or api.has_iam_mixin %}
+        'grpc-google-iam-v1 >= 0.12.4, < 0.13dev',
+    {% endif %}
+    {% if api.requires_package(('google', 'cloud', 'documentai', 'v1')) %}
+        'google-cloud-documentai >= 1.2.1, < 2.0.0dev',
+    {% endif %}
+    ),
+    python_requires='>=3.8',
+    classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Topic :: Internet',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+    ],
+    zip_safe=False,
+)
+{% endblock %}
