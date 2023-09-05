@@ -4,6 +4,5 @@ class {{ enum.name }}(Enum):
     {% for enum_value in enum.values %}
     {{ '# ' + enum_value.meta.doc if enum_value.meta.doc else '' }}
     {{ enum_value.name }} = {{ enum_value.number }}
-
     {% endfor %}
 {{ '\n\n' }}

@@ -15,12 +15,6 @@ generate-widgets-v1-dataclasses:
 		--python_gapic_out=examples/simple-types/gen \
 		--python_gapic_opt=python-gapic-templates=$(shell pwd)/templates/dataclasses
 
-.PHONY: generate-google-vision-v1
-generate-google-vision-v1:
-	protoc examples/googleapis/google/cloud/vision/v1/*.proto \
-		--proto_path=../api-common-protos/ --proto_path=. \
-		--python_gapic_out=gen/
-
 .PHONY: clean
 clean:
 	rm -rf gen
