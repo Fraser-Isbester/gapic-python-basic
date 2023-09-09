@@ -3,6 +3,7 @@ import datetime
 from typing import Tuple
 from enum import Enum, auto
 
+
 @dataclasses.dataclass
 class Widget:
     """The Widget type defines a Widget object

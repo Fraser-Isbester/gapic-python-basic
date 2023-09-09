@@ -14,8 +14,11 @@ message Widget {
     int64 created = 3;
     // The colors available for the widget
     repeated string colors = 4;
+    // global stock by color
+    map<string, int32> stock_by_color = 5;
+
     // The number of widgets in stock at various locations
-    map<int32, WidgetFactory> stock_by_warehouse = 5;
+    // map<int32, WidgetFactory> stock_by_warehouse = 5;
 
     // The Size enum defines the size of the widget
     enum Size {
@@ -30,12 +33,12 @@ message Widget {
     }
 }
 
-// Describes a Widget Factory
-message WidgetFactory {
-	// The id of the factory
-	int32 id = 1 ;
-	// The name of the factory
-	string name = 2 ;
-	// The address of the factory
-	string address = 3 ;
-}
+// // Describes a Widget Factory
+// message WidgetFactory {
+// 	// The id of the factory
+// 	int32 id = 1 ;
+// 	// The name of the factory
+// 	string name = 2 ;
+// 	// The address of the factory
+// 	string address = 3 ;
+// }

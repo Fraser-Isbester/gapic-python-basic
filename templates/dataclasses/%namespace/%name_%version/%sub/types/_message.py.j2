@@ -2,19 +2,32 @@
 class {{ message.name }}:
     r"""{{ message.meta.doc | rst(indent=4) }}"""
 
+    {# https://wiki.python.org/moin/UsingSlots #}
+    # The fixed set of attrbiutes for the {{ message.name }} Type.
+    __slots__ = ({% for field in message.fields.values() %}"{{ field.name }}"{{ ", " if not loop.last else "" }}{% endfor %})
+
     {# Iterate over fields. -#}
     {% for field in message.fields.values() %}
+    {# Handle Where Field is of Type Map -#}
+    {% set field_type_str = "" %}
+    {%- if field.map -%}
+        {% set field_type_str -%}
+            {%- with key_field = field.message.fields['key'], value_field = field.message.fields['value'] -%}
+                OrderedDict[{{ key_field.type.python_type.__name__ }}, {{ value_field.type.python_type.__name__ }}]
+            {%- endwith -%}
+        {%- endset %}
+    {% else %}
+        {% set field_type_str -%}
+            {% if field.repeated %}Tuple[{% endif %}{% if field.enum or field.message %}{{ field.type.ident.rel(message.ident) }}{% else %}{{ field.type.python_type.__name__ }}{% endif %}{% if field.repeated %}]{% endif %}
+        {%- endset %}
+    {% endif -%}
+
+    {# Actually construct the Type String #}
     {# Injects Attribute Comment #}
     {{ "# " + field.meta.doc if field.meta.doc else '' | rst(indent=4) }}
-    {# Handle Where Field is of Type Map -#}
-    {%- if field.map -%}
-    {% with key_field = field.message.fields['key'], value_field = field.message.fields['value'] %}
-    {{ field.name}}: OrderDict[{{ key_field.type.python_type.__name__ }}, {{ value_field.type.python_type.__name__ }}] = field(default_factory=OrderedDict)
-    {% endwith %}
-    {% else %}
-    {{ field.name }}: {% if field.repeated %}Tuple[{% endif %}{% if field.enum or field.message %}{{ field.type.ident.rel(message.ident) }}{% else %}{{ field.type.python_type.__name__ }}{% endif %}{% if field.repeated %}] = field(default_factory=Tuple){% endif %}
+    {{ field.name }}: "{{ field_type_str }}"{% if field.repeated %} = dataclasses.field(default_factory = Tuple) {% endif %}
 
-    {% endif %}
+
     {% endfor %}{# for field in message.fields.values #}
 
     {# Iterate over nested enums. -#}
@@ -32,5 +45,15 @@ class {{ message.name }}:
         {% endfilter %}{% endwith %}
         {% endif %}
     {% endfor %}
+
+    {# # Provides PB2 Interoperability
+    @classmethod
+    def from_pb2(cls, pb2) -> Self:
+        r"""Converts a PB2 {{ message.name }}_pb2 to a {{ message.name }}"""
+        raise NotImplementedError("from_pb2() not yet implemented")
+
+    def pb2(self):
+        r"""Converts a {{ message.name }} to a PB2 {{ message.name }}_pb2"""
+        raise NotImplementedError("pb2() not yet implemented") #}
 
 {{ '\n\n' }}
