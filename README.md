@@ -29,8 +29,8 @@ message Widget {
     int64 created = 3;
     // The colors available for the widget
     repeated string colors = 4;
-    // The number of widgets in stock at various locations
-    map<string, int32> stock_by_warehouse = 5;
+    // global stock by color
+    map<string, int32> stock_by_color = 5;
 
     // The Size enum defines the size of the widget
     enum Size {
@@ -52,28 +52,33 @@ message Widget {
 
 ```python
 # examples/simple-types/gen/simple_types_v1/types/widgets.py
-# -*- coding: utf-8 -*-
-
-from dataclasses import dataclass, field
+import dataclasses
 from typing import Tuple
-from collections import OrderedDict
+from typing import OrderedDict
 from enum import Enum
 
 
-@dataclass
+@dataclasses.dataclasses
 class Widget:
     r"""The Widget type defines a Widget object"""
 
+    # The fixed set of attrbiutes for the Widget Type.
+    __slots__ = ("name", "size", "created", "colors", "stock_by_color")
+
     # The name of the widget
-    name: str
+    name: "str"
+
     # The size of the widget
     size: "Size"
-    # When the widget entry was created
-    created: int
-    # The colors the widget is available in
-    colors: Tuple[str] = field(default_factory=Tuple)
-    # The stock of the widget by warehouse
-    stock_by_warehouse: OrderedDict[str, int] = field(default_factory=OrderedDict)
+
+    # The date the widget was created
+    created: "int"
+
+    # The colors available for the widget
+    colors: "Tuple[str]" = dataclasses.field(default_factory = Tuple)
+
+    # global stock by color
+    stock_by_color: "OrderedDict[str, int]" = dataclasses.field(default_factory = Tuple)
 
     class Size(Enum):
         r"""The Size enum defines the size of the widget"""
