@@ -1,6 +1,8 @@
 # Custom
 *.DS_Store
-**gen**
+examples/*
+!examples/simple-types/
+!examples/googleapis/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

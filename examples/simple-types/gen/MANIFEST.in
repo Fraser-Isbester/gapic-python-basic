@@ -1,0 +1,2 @@
+recursive-include simple_types *.py
+recursive-include simple_types_v1 *.py
