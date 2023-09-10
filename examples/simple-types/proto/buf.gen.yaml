@@ -1,0 +1,13 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: github.com/fraser-isbester/gapic-python-basic/examples/simple-types
+plugins:
+  - plugin: buf.build/protocolbuffers/go
+    out: ../gen/go
+    opt: paths=source_relative
+  - plugin: python_gapic
+    out: ../gen/python
+    opt:
+      - python-gapic-templates=/Users/fraser/code/gapic-python-basic/templates/dataclasses

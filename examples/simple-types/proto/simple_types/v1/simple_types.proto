@@ -2,7 +2,7 @@
 // A proto file for the Widget service
 syntax = "proto3";
 
-package simple_types.v1.simple_types ;
+package simple_types.v1 ;
 
 // The Widget type defines a Widget object
 message Widget {
@@ -16,7 +16,6 @@ message Widget {
     repeated string colors = 4;
     // global stock by color
     map<string, int32> stock_by_color = 5;
-
     // The number of widgets in stock at various locations
     map<int32, WidgetFactory> stock_by_warehouse = 6;
 
