@@ -20,10 +20,17 @@ class {{ message.name }}:
     {%- endwith -%}
     {%- endset %}
     {% else %}
-        {% set field_type_str -%}
-            {% if field.repeated %}Tuple[{% endif %}{% if field.enum or field.message %}{{ field.type.ident.rel(message.ident) }}{% else %}{{ field.type.python_type.__name__ }}{% endif %}{% if field.repeated %}]{% endif %}
-        {%- endset %}
-    {% endif -%} 
+
+    {# Set Non-Map Fields #}
+    {% set field_type_str -%}
+        {% if field.enum or field.message %}'{{ field.type.ident.rel(message.ident) }}'{% else %}{{ field.type.python_type.__name__ }}{% endif %}
+    {%- endset %}
+
+    {# Handle Repeated Fields -#}
+    {% if field.repeated %}
+        {% set field_type_str = "Tuple[" + field_type_str + "]" %}
+    {% endif %}
+    {% endif -%}
 
     {# Actually construct the Type String #}
     {# Injects Attribute Comment #}
