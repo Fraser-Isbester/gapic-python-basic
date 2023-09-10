@@ -23,13 +23,13 @@ message Widget {
     // The Size enum defines the size of the widget
     enum Size {
         // The Widget Size is unknown
-        UNKNOWN = 0;
+        SIZE_UNSPECIFIED = 0;
         // The Widget Size is small
-        SMALL = 1;
+        SIZE_SMALL = 1;
         // The Widget Size is medium
-        MEDIUM = 2;
+        SIZE_MEDIUM = 2;
         // The Widget Size is large
-        LARGE = 3;
+        SIZE_LARGE = 3;
     }
 }
 
