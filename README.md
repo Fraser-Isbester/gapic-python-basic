@@ -52,6 +52,8 @@ message Widget {
 
 ```python
 # examples/simple-types/gen/simple_types_v1/types/widgets.py
+# -*- coding: utf-8 -*-
+
 import dataclasses
 from typing import Tuple
 from typing import OrderedDict
@@ -75,10 +77,10 @@ class Widget:
     created: "int"
 
     # The colors available for the widget
-    colors: "Tuple[str]" = dataclasses.field(default_factory = Tuple)
+    colors: "Tuple[str]" = dataclasses.field(default_factory=Tuple)
 
     # global stock by color
-    stock_by_color: "OrderedDict[str, int]" = dataclasses.field(default_factory = Tuple)
+    stock_by_color: "OrderedDict[str, int]" = dataclasses.field(default_factory=Tuple)
 
     class Size(Enum):
         r"""The Size enum defines the size of the widget"""

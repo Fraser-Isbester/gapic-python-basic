@@ -6,26 +6,29 @@ class {{ message.name }}:
     # The fixed set of attrbiutes for the {{ message.name }} Type.
     __slots__ = ({% for field in message.fields.values() %}"{{ field.name }}"{{ ", " if not loop.last else "" }}{% endfor %})
 
-    {# Iterate over fields. -#}
+    {# Iterate over fields -#}
     {% for field in message.fields.values() %}
+
     {# Handle Where Field is of Type Map -#}
-    {% set field_type_str = "" %}
     {%- if field.map -%}
-        {% set field_type_str -%}
-            {%- with key_field = field.message.fields['key'], value_field = field.message.fields['value'] -%}
-                OrderedDict[{{ key_field.type.python_type.__name__ }}, {{ value_field.type.python_type.__name__ }}]
-            {%- endwith -%}
-        {%- endset %}
+    {% set field_type_str %}
+    {%- with key_field = field.message.fields['key'], value_field = field.message.fields['value'] -%}
+    OrderedDict[
+        {%- if key_field.is_primitive %}{{ key_field.type.python_type.__name__ }}{% else %}{{ key_field.type.ident.rel(message.ident) }}{% endif %},
+        {%- if value_field.is_primitive %}{{ value_field.type.python_type.__name__ }}{% else %}{{ value_field.type.ident.rel(message.ident) }}{% endif -%}
+    ]
+    {%- endwith -%}
+    {%- endset %}
     {% else %}
         {% set field_type_str -%}
             {% if field.repeated %}Tuple[{% endif %}{% if field.enum or field.message %}{{ field.type.ident.rel(message.ident) }}{% else %}{{ field.type.python_type.__name__ }}{% endif %}{% if field.repeated %}]{% endif %}
         {%- endset %}
-    {% endif -%}
+    {% endif -%} 
 
     {# Actually construct the Type String #}
     {# Injects Attribute Comment #}
     {{ "# " + field.meta.doc if field.meta.doc else '' | rst(indent=4) }}
-    {{ field.name }}: "{{ field_type_str }}"{% if field.repeated %} = dataclasses.field(default_factory = Tuple) {% endif %}
+    {{ field.name }}: {{ field_type_str }}{% if field.repeated %} = dataclasses.field(default_factory = Tuple) {% endif %}
 
 
     {% endfor %}{# for field in message.fields.values #}
