@@ -1,3 +1,4 @@
+# ./proto/buf.yaml
 version: v1
 name: buf.build/fraser/simple-types
 breaking:
@@ -7,5 +8,3 @@ lint:
   use:
     - DEFAULT
     - COMMENTS
-    - UNARY_RPC
-    - PACKAGE_NO_IMPORT_CYCLE

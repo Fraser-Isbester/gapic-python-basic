@@ -10,6 +10,40 @@ Support:
 This template generates basic Python Dataclasses from Proto Messages.
 
 <details>
+    <summary>Buf Configuration</summary>
+
+
+```yaml
+# ./proto/buf.gen.yaml
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: github.com/fraser-isbester/gapic-python-basic/examples/simple-types
+plugins:
+  - plugin: python_gapic
+    out: ../gen/python
+    opt:
+      - python-gapic-templates=/Users/fraser/code/gapic-python-basic/templates/dataclasses
+
+```
+
+```yaml
+# ./proto/buf.yaml
+version: v1
+name: buf.build/fraser/simple-types
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT
+    - COMMENTS
+```
+
+</details>
+
+<details>
     <summary>Proto Definition</summary>
 
 ```protobuf
