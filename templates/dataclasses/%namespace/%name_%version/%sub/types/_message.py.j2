@@ -23,7 +23,7 @@ class {{ message.name }}:
 
     {# Set Non-Map Fields #}
     {% set field_type_str -%}
-        {% if field.enum or field.message %}'{{ field.type.ident.rel(message.ident) }}'{% else %}{{ field.type.python_type.__name__ }}{% endif %}
+        {% if field.enum or field.message %}{{ field.type.ident.rel(message.ident) }}{% else %}{{ field.type.python_type.__name__ }}{% endif %}
     {%- endset %}
 
     {# Handle Repeated Fields -#}
@@ -34,7 +34,7 @@ class {{ message.name }}:
 
     {# Actually construct the Type String #}
     {# Injects Attribute Comment #}
-    {{ "# " + field.meta.doc if field.meta.doc else '' | rst(indent=4) }}
+    # {{ field.meta.documentation.leading_comments.strip().split(".")[0].replace("\n", "") }}.
     {{ field.name }}: {{ field_type_str }}{% if field.repeated %} = dataclasses.field(default_factory = Tuple) {% endif %}
 
 
