@@ -2,7 +2,7 @@
 // A proto file for the Widget service
 syntax = "proto3";
 
-package simple_types.v1.widget;
+package simple_types.v1.simple_types ;
 
 // The Widget type defines a Widget object
 message Widget {
